@@ -14,9 +14,25 @@ app.engine(".hbs", hbs.engine);
 app.set("view engine", ".hbs");
 app.set("views", "./views");
 
+// middleware
+app.use(express.static(__dirname + "/public"));
+app.use(
+    "/css/bootstrap.min.css",
+    express.static(
+        __dirname + "/node_modules/bootstrap/dist/css/bootstrap.min.css"
+    )
+);
+app.use("/js", express.static(__dirname + "/node_modules/bootstrap/dist/js"));
+
 app.get("/", (req, res) => {
     res.render("home", {
         titulo: "Esta es la página de inicio",
+    });
+});
+
+app.get("/carrito", (req, res) => {
+    res.render("carrito", {
+        frutas: ["manzana", "pera", "banana"],
     });
 });
 
@@ -41,8 +57,5 @@ app.get("/contacto", (req, res) => {
         },
     });
 });
-
-// middleware
-app.use(express.static(__dirname + "/public"));
 
 app.listen(5000, () => console.log("servidor andando 🎉🎉🎉"));
